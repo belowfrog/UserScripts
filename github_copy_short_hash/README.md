@@ -10,7 +10,7 @@ In commits page, before the copy full hash button.
 ### Before
 ![before](./screenshot_before.jpg)
 
-#### After
+### After
 ![after](./screenshot_after.jpg)
 
 ## External links

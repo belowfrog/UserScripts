@@ -11,19 +11,42 @@
 // @supportURL   https://github.com/belowfrog/UserScripts/issues
 // @downloadURL  https://github.com/belowfrog/UserScripts/tree/master/github_copy_short_hash/user.js
 // @updateURL    https://github.com/belowfrog/UserScripts/tree/master/github_copy_short_hash/user.js
-// @version      0.2
+// @version      1.0
 // @grant        none
 // ==/UserScript==
 
 ;(function () {
   'use strict'
-  const copyBtns = document.querySelectorAll('button[data-clipboard-text]')
-  copyBtns.forEach(node => {
-    if (node.dataset.clipboardText.length) {
-      const newNode = node.cloneNode(true)
-      newNode.dataset.clipboardText = node.dataset.clipboardText.substr(0, 8)
-      newNode.setAttribute('aria-label', 'copy 8-bit commit hash')
-      node.parentNode.insertBefore(newNode, node)
+  const ARIA_LABEL_HINT = 'copy 8-bit commit hash'
+  const SUBSTR_LENGTH = 8
+  const USE_COPY_NODE = !!document.querySelector('clipboard-copy')
+
+  // button[data-clipboard-text]
+  function handleCopyBtn (btn) {
+    if (btn.dataset.clipboardText) {
+      const newNode = btn.cloneNode(true)
+      newNode.dataset.clipboardText = btn.dataset.clipboardText.substr(0, SUBSTR_LENGTH)
+      newNode.setAttribute('aria-label', ARIA_LABEL_HINT)
+      btn.parentNode.insertBefore(newNode, btn)
     }
+  }
+
+  // clipboard-copy
+  function handleCopyNode (copyNode) {
+    if (copyNode.value) {
+      const newNode = copyNode.cloneNode(true)
+      newNode.value = copyNode.value.substr(0, SUBSTR_LENGTH)
+      newNode.setAttribute('aria-label', ARIA_LABEL_HINT)
+      copyNode.parentNode.insertBefore(newNode, copyNode)
+    }
+  }
+
+  const copyBtns = USE_COPY_NODE
+    ? document.querySelectorAll('clipboard-copy')
+    : document.querySelectorAll('button[data-clipboard-text]')
+
+  copyBtns.forEach(node => {
+    if (node.tagName === 'BUTTON') handleCopyBtn(node)
+    else if (node.tagName === 'CLIPBOARD-COPY') handleCopyNode(node)
   })
 })()
