@@ -2,11 +2,13 @@
 // @name        推荐视频翻页 - bilibili.com
 // @namespace   Violentmonkey Scripts
 // @match       https://www.bilibili.com/
+// @exclude     http://www.bilibili.com/**/*
 // @grant       none
-// @version     1.0
+// @version     1.2
 // @author      belowfrog@gmail.com
 // @run-at      document-end
 // @description 2022/2/22 21:56:43
+// @license MIT
 // ==/UserScript==
 
 
